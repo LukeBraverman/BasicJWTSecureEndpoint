@@ -1,16 +1,25 @@
 package com.payslip.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import com.payslip.model.Authentication;
+import com.payslip.model.JwtToken;
+import com.payslip.util.JwtTokenUtil;
+import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
+@AllArgsConstructor
 public class PaySlip {
 
-    @PostMapping("/Auth")
-    public void authenticate( ) {
+    JwtTokenUtil jwtTokenUtil;
 
+
+    @PostMapping("/Auth")
+    public ResponseEntity<JwtToken> authenticate(@RequestBody Authentication authentication) {
+
+
+        final String token = jwtTokenUtil.generateToken(null);
+        return ResponseEntity.ok(new JwtToken(token));
     }
 
     @GetMapping("/Payslip")
